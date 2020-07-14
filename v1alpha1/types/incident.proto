@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package v1alpha1.types;
+
+option go_package = "github.com/ahshtio/apis";
+
+// Incident is:
+// >  An occurrence that actually or potentially jeopardizes the confidentiality, integrity, or availability of an
+// >  information system or the information the system processes, stores, or transmits or that constitutes a violation
+// >  or imminent threat of violation of security policies, security procedures, or acceptable use policies.
+// > 
+//         — https://csrc.nist.gov/glossary/term/incident
+//
+// An incident is started when the first impact is identified, and concluded with all identified impacts have been 
+// mitigated, such that users are no longer affected outside the error margin (i.e. outside SLOs).
+message Incident {
+    // Should be a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier)
+	// Example: e1da1be2-eff2-11e8-a204-0f0dc88152cb
+    string id = 1;
+
+    // The identified undesired consequences of this anomaly.
+    repeated Impact impacts = 2;
+}
+
+// An "Impact" is some undesirable consequence or outcome as a result of the incident.
+message Impact {
+    // Should be a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier)
+	// Example: e1da1be2-eff2-11e8-a204-0f0dc88152cb
+    string id = 1;
+
+
+}
