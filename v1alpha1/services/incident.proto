@@ -1,0 +1,72 @@
+//https://cloud.google.com/apis/design/standard_methods#get
+syntax = "proto3";
+
+package v1alpha1.services;
+
+import "v1alpha1/types/incident.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+
+option go_package = "github.com/ahshtio/apis/v1alpha1/services";
+
+service Incident {
+	rpc GetIncident(GetIncidentRequest) returns (v1alpha1.types.Incident) {
+    }
+
+    rpc GetIncidents(GetIncidentsRequest) returns (GetIncidentsResponse) {
+    }
+
+	rpc PutIncident(PutIncidentRequest) returns (google.protobuf.Empty) {
+    }
+
+    rpc DeleteIncident(DeleteIncidentRequest) returns (google.protobuf.Empty) {
+    }
+
+    rpc UpdateIncident(UpdateIncidentRequest) returns (google.protobuf.Empty) {
+    }
+    
+    // Todo: Should this be a sort of, "meta event" indicating change information?
+    rpc WatchIncidents(WatchIncidentRequest) returns (stream WatchIncidentResponse) {
+    }
+}
+
+message GetIncidentRequest {
+    // see types.Incident.id
+	string id = 1;
+}
+
+message GetIncidentsRequest {
+    // see types.Incident
+    v1alpha1.types.Incident incident = 1;
+
+    google.protobuf.FieldMask mask = 2;
+}
+
+message GetIncidentsResponse {
+    repeated v1alpha1.types.Incident incidents = 1;
+}
+
+message PutIncidentRequest {
+    // see types.Incident
+    v1alpha1.types.Incident incident = 1;
+}
+
+message DeleteIncidentRequest {
+    // see types.Incident.id
+    string id = 1;
+}
+
+message UpdateIncidentRequest {
+    // see types.Incident
+    v1alpha1.types.Incident incident = 1;
+
+    google.protobuf.FieldMask mask = 2;
+}
+
+message WatchIncidentRequest {
+}
+
+message WatchIncidentResponse {
+    // see types.Incident
+    v1alpha1.types.Incident incident = 1;
+}

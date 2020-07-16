@@ -36,6 +36,7 @@ def __go_client():
         "name": "go-client",
         "steps": [
             __step_proto("go", "v1alpha1/types", ["go_out", "go-grpc_out"]),
+            __step_proto("go", "v1alpha1/services", ["go_out", "go-grpc_out"]),
 
             # Todo: Publish to GitHub branch
         ]
@@ -52,7 +53,8 @@ def __ruby_client():
         "name": "ruby-client",
         "steps": [
             __step_proto("ruby", "v1alpha1/types", ["ruby_out"]),
-
+            __step_proto("ruby", "v1alpha1/services", ["ruby_out"]),
+            
             # Todo: Publish to GitHub Package Store
         ]
     }
@@ -68,6 +70,7 @@ def __js_client():
         "name": "js-client",
         "steps": [
             __step_proto("js", "v1alpha1/types", ["js_out"]),
+            __step_proto("js", "v1alpha1/services", ["js_out"]),
 
             # Todo: Publish to GitHub Package Store
         ]
@@ -84,6 +87,7 @@ def __java_client():
         "name": "java-client",
         "steps": [
             __step_proto("java", "v1alpha1/types", ["java_out"]),
+            __step_proto("java", "v1alpha1/services", ["java_out"]),
 
             # Todo: Publish to GitHub Package Store
         ]
@@ -109,7 +113,7 @@ def __step_proto(name, src, plugins):
 
     # Compile the step
     return  {
-        "name": name,
+        "name": "%s: %s" % (name, src),
         "image": "littleman/proto:latest",
         "commands": [
             "mkdir -p %s" % dest,
