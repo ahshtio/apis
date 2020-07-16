@@ -37,8 +37,50 @@ def __go_client():
         "steps": [
             __step_proto("go", "v1alpha1/types", ["go_out", "go-grpc_out"]),
             __step_proto("go", "v1alpha1/services", ["go_out", "go-grpc_out"]),
+            {
+                "name": "publish",
+                "image": "alpine/git",
+                "commands": [
+                    # Publish the SSH Key
+                    "mkdir -p ~/.ssh && chmod 700 ~/.ssh",
+                    "echo \"$ID_RSA\" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa",
+                    "ssh-keygen -F github.com || ssh-keyscan github.com >>~/.ssh/known_hosts",
 
-            # Todo: Publish to GitHub branch
+                    # Set Git configuration
+                    "git remote set-url origin git@github.com:$DRONE_REPO",
+                    "git config --global user.email apis@cloud.drone.io",
+
+                    # Switch to the appropriate refspec
+                    "git fetch --depth=1000",
+                    "git checkout go",
+
+                    # Arrange the content
+                    "rm -rf v*",
+                    "mv dist/pkg/go/github.com/ahshtio/apis/* .",
+                    "git add v*",
+
+                    # Push the changes"
+                    "git commit -m 'Generated@$DRONE_COMMIT'",
+                    "git push --force-with-lease",
+                ],
+                "environment": {
+                    "ID_RSA": {
+                        "from_secret": "ID_RSA"
+                    }
+                },
+                "when": {
+                    "branch": {
+                        "include": [
+                            "master"
+                        ]
+                    },
+                    "event": {
+                        "include": [
+                            "push"
+                        ]
+                    }
+                }
+            }
         ]
     }
 
