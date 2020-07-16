@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package v1alpha1.types;
 
-option go_package = "github.com/ahshtio/apis";
+option go_package = "github.com/ahshtio/apis/v1alpha1/types";
 
 // Incident is:
 // >  An occurrence that actually or potentially jeopardizes the confidentiality, integrity, or availability of an
@@ -27,6 +27,4 @@ message Impact {
     // Should be a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier)
 	// Example: e1da1be2-eff2-11e8-a204-0f0dc88152cb
     string id = 1;
-
-
 }

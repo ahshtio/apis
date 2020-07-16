@@ -19,20 +19,100 @@ def main(ctx):
       An array of build steps for use rendering into Yaml
     """
     return [
-        __go_client()
+        __go_client(),
+        __ruby_client(),
+        __js_client(),
+        __java_client(),
     ]
 
 def __go_client():
+    """Generate and public the go client
+
+    Returns:
+      A valid pipeline object
+    """
     return {
-    "kind": "pipeline",
-    "name": "build",
-    "steps": [
-      {
-        "name": "build",
-        "image": "alpine",
-        "commands": [
-            "echo hello world"
+        "kind": "pipeline",
+        "name": "go-client",
+        "steps": [
+            __step_proto("go", "v1alpha1/types", ["go_out", "go-grpc_out"]),
+
+            # Todo: Publish to GitHub branch
         ]
-      }
-    ]
-  }
+    }
+
+def __ruby_client():
+    """Generate and public the go client
+
+    Returns:
+      A valid pipeline object
+    """
+    return {
+        "kind": "pipeline",
+        "name": "ruby-client",
+        "steps": [
+            __step_proto("ruby", "v1alpha1/types", ["ruby_out"]),
+
+            # Todo: Publish to GitHub Package Store
+        ]
+    }
+
+def __js_client():
+    """Generate and public the go client
+
+    Returns:
+      A valid pipeline object
+    """
+    return {
+        "kind": "pipeline",
+        "name": "js-client",
+        "steps": [
+            __step_proto("js", "v1alpha1/types", ["js_out"]),
+
+            # Todo: Publish to GitHub Package Store
+        ]
+    }
+
+def __java_client():
+    """Generate and public the go client
+
+    Returns:
+      A valid pipeline object
+    """
+    return {
+        "kind": "pipeline",
+        "name": "java-client",
+        "steps": [
+            __step_proto("java", "v1alpha1/types", ["java_out"]),
+
+            # Todo: Publish to GitHub Package Store
+        ]
+    }
+
+
+def __step_proto(name, src, plugins):
+    """Runs the generation of the client libraries from a protobuf definition
+
+    Returns:
+      A valid step object
+    """
+
+    # Compile the destination
+    dest = "dist/pkg/%s" % name
+
+    # Compile the protobuf invocation command
+    command = "protoc -I/usr/local/include -I."
+    for p in plugins:
+        command += " --%s=%s" % (p, dest)
+
+    command += " %s/*" % src
+
+    # Compile the step
+    return  {
+        "name": name,
+        "image": "littleman/proto:latest",
+        "commands": [
+            "mkdir -p %s" % dest,
+            command
+        ]
+    }
