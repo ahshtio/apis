@@ -20,9 +20,6 @@ def main(ctx):
     """
     return [
         __go_client(),
-        __ruby_client(),
-        __js_client(),
-        __java_client(),
     ]
 
 def __go_client():
@@ -83,58 +80,6 @@ def __go_client():
             }
         ]
     }
-
-def __ruby_client():
-    """Generate and public the go client
-
-    Returns:
-      A valid pipeline object
-    """
-    return {
-        "kind": "pipeline",
-        "name": "ruby-client",
-        "steps": [
-            __step_proto("ruby", "v1alpha1/types", ["ruby_out"]),
-            __step_proto("ruby", "v1alpha1/services", ["ruby_out"]),
-            
-            # Todo: Publish to GitHub Package Store
-        ]
-    }
-
-def __js_client():
-    """Generate and public the go client
-
-    Returns:
-      A valid pipeline object
-    """
-    return {
-        "kind": "pipeline",
-        "name": "js-client",
-        "steps": [
-            __step_proto("js", "v1alpha1/types", ["js_out"]),
-            __step_proto("js", "v1alpha1/services", ["js_out"]),
-
-            # Todo: Publish to GitHub Package Store
-        ]
-    }
-
-def __java_client():
-    """Generate and public the go client
-
-    Returns:
-      A valid pipeline object
-    """
-    return {
-        "kind": "pipeline",
-        "name": "java-client",
-        "steps": [
-            __step_proto("java", "v1alpha1/types", ["java_out"]),
-            __step_proto("java", "v1alpha1/services", ["java_out"]),
-
-            # Todo: Publish to GitHub Package Store
-        ]
-    }
-
 
 def __step_proto(name, src, plugins):
     """Runs the generation of the client libraries from a protobuf definition
