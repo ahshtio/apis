@@ -32,8 +32,7 @@ def __go_client():
         "kind": "pipeline",
         "name": "go-client",
         "steps": [
-            __step_proto("go", "v1alpha1/types", ["go_out", "go-grpc_out"]),
-            __step_proto("go", "v1alpha1/services", ["go_out", "go-grpc_out"]),
+            __step_proto("go", "incident/v1alpha1", ["go_out", "go-grpc_out"]),
             {
                 "name": "publish",
                 "image": "alpine/git",
