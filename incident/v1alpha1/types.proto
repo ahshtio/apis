@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package v1alpha1.types;
+package v1alpha1;
 
 option go_package = "github.com/ahshtio/apis/v1alpha1/types";
 

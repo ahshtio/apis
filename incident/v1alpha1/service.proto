@@ -1,16 +1,16 @@
 //https://cloud.google.com/apis/design/standard_methods#get
 syntax = "proto3";
 
-package v1alpha1.services;
+package v1alpha1;
 
-import "v1alpha1/types/incident.proto";
+import "incident/v1alpha1/types.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/field_mask.proto";
 
-option go_package = "github.com/ahshtio/apis/v1alpha1/services";
+option go_package = "github.com/ahshtio/apis/incident/v1alpha1";
 
-service Incident {
-	rpc GetIncident(GetIncidentRequest) returns (v1alpha1.types.Incident) {
+service IncidentService {
+	rpc GetIncident(GetIncidentRequest) returns (Incident) {
     }
 
     rpc GetIncidents(GetIncidentsRequest) returns (GetIncidentsResponse) {
@@ -37,18 +37,18 @@ message GetIncidentRequest {
 
 message GetIncidentsRequest {
     // see types.Incident
-    v1alpha1.types.Incident incident = 1;
+    v1alpha1.Incident incident = 1;
 
     google.protobuf.FieldMask mask = 2;
 }
 
 message GetIncidentsResponse {
-    repeated v1alpha1.types.Incident incidents = 1;
+    repeated v1alpha1.Incident incidents = 1;
 }
 
 message PutIncidentRequest {
     // see types.Incident
-    v1alpha1.types.Incident incident = 1;
+    v1alpha1.Incident incident = 1;
 }
 
 message DeleteIncidentRequest {
@@ -58,7 +58,7 @@ message DeleteIncidentRequest {
 
 message UpdateIncidentRequest {
     // see types.Incident
-    v1alpha1.types.Incident incident = 1;
+    v1alpha1.Incident incident = 1;
 
     google.protobuf.FieldMask mask = 2;
 }
@@ -68,5 +68,5 @@ message WatchIncidentRequest {
 
 message WatchIncidentResponse {
     // see types.Incident
-    v1alpha1.types.Incident incident = 1;
+    v1alpha1.Incident incident = 1;
 }
