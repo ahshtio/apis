@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package v1alpha1;
 
-option go_package = "github.com/ahshtio/apis/v1alpha1/types";
+option go_package = "github.com/ahshtio/apis/incident/v1alpha1";
 
 // Incident is:
 // >  An occurrence that actually or potentially jeopardizes the confidentiality, integrity, or availability of an

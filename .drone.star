@@ -51,12 +51,12 @@ def __go_client():
                     "git checkout go",
 
                     # Arrange the content
-                    "rm -rf v*",
+                    "find * -maxdepth 0 ! -name dist -print0 | xargs -0 rm -rfv",
                     "mv dist/pkg/go/github.com/ahshtio/apis/* .",
-                    "git add v*",
+                    "git add *",
 
                     # Push the changes"
-                    "git commit -m 'Generated@$DRONE_COMMIT'",
+                    "git commit -m \"Generated@$DRONE_COMMIT\"",
                     "git push --force-with-lease",
                 ],
                 "environment": {
@@ -67,7 +67,7 @@ def __go_client():
                 "when": {
                     "branch": {
                         "include": [
-                            "master"
+                            "specification"
                         ]
                     },
                     "event": {
