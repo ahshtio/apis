@@ -40,12 +40,16 @@ message Impact {
 //
 // The "Incident" lasts a long as the impacts exist.
 message Event {
+    // Should be a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier)
+	// Example: e1da1be2-eff2-11e8-a204-0f0dc88152cb
+    string id = 1;
+
     // The point at which the event occurred
-    google.protobuf.Timestamp timestamp = 1;
+    google.protobuf.Timestamp timestamp = 2;
 
     // A free text description of a given event.
-    string description = 2;
+    string description = 3;
 
     // A set of free tags associated this event to group and categories timeline entries.
-    repeated string tags = 3;
+    repeated string tags = 4;
 }
