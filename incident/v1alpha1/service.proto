@@ -9,24 +9,38 @@ import "google/protobuf/field_mask.proto";
 
 option go_package = "github.com/ahshtio/apis/incident/v1alpha1";
 
+// IncidentService is the primary way to interact with incidents managed by the platform.
 service IncidentService {
+
+    // GetIncident returns exactly 1 incident matching the criteria supplied as part of GetIncidentRequest
 	rpc GetIncident(GetIncidentRequest) returns (Incident) {
     }
 
+    // GetIncidents returns multiple incidents matching the supplied criteria
     rpc GetIncidents(GetIncidentsRequest) returns (GetIncidentsResponse) {
     }
 
+    // PutIncident completely replaces the incident matching the ID in the incident supplied with the contents
+    // of that incident.
 	rpc PutIncident(PutIncidentRequest) returns (google.protobuf.Empty) {
     }
 
+    // DeleteIncident deletes an incident.
     rpc DeleteIncident(DeleteIncidentRequest) returns (google.protobuf.Empty) {
     }
 
+    // UpdateIncident modifies an incident as supplied by the UpdateIncidentRequest
     rpc UpdateIncident(UpdateIncidentRequest) returns (google.protobuf.Empty) {
     }
     
-    // Todo: Should this be a sort of, "meta event" indicating change information?
+    // WatchIncidents returns a response that indicates when incidents that match the criteria supplied in
+    // WatchIncidentRequest have changed.
     rpc WatchIncidents(WatchIncidentRequest) returns (stream WatchIncidentResponse) {
+    }
+
+    // AddEvent adds an event to an existing incident as supplised in the AddEventRequest.
+    rpc AddEvent(AddEventRequest) returns (google.protobuf.Empty) {
+
     }
 }
 
@@ -69,4 +83,15 @@ message WatchIncidentRequest {
 message WatchIncidentResponse {
     // see types.Incident
     v1alpha1.Incident incident = 1;
+}
+
+// AddEventRequest contains the content required to complete the "IncidentService.AddEvent" RPC
+message AddEventRequest {
+    // The ID of the incident to add the content to
+    //
+    // Should be a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier)
+	// Example: e1da1be2-eff2-11e8-a204-0f0dc88152cb
+    string incident_id = 1;
+
+    v1alpha1.Event event = 2;
 }
