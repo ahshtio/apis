@@ -4,6 +4,8 @@ package v1alpha1;
 
 option go_package = "github.com/ahshtio/apis/incident/v1alpha1";
 
+import "google/protobuf/timestamp.proto";
+
 // Incident is:
 // >  An occurrence that actually or potentially jeopardizes the confidentiality, integrity, or availability of an
 // >  information system or the information the system processes, stores, or transmits or that constitutes a violation
@@ -27,4 +29,23 @@ message Impact {
     // Should be a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier)
 	// Example: e1da1be2-eff2-11e8-a204-0f0dc88152cb
     string id = 1;
+
+    repeated Event timeline = 2;
+}
+
+// An "event" is a notable occurrance that happened during an incident
+//
+// Fundamentally an Event is "thing" — just something of note that happened during the incident itself, or even before &
+// after.
+//
+// The "Incident" lasts a long as the impacts exist.
+message Event {
+    // The point at which the event occurred
+    google.protobuf.Timestamp timestamp = 1;
+
+    // A free text description of a given event.
+    string description = 2;
+
+    // A set of free tags associated this event to group and categories timeline entries.
+    repeated string tags = 3;
 }
