@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package v1alpha2;
+package v1alpha3;
 
-option go_package = "github.com/ahshtio/apis/incident/v1alpha2";
+option go_package = "github.com/ahshtio/apis/incident/v1alpha3";
 
 import "google/protobuf/timestamp.proto";
 
@@ -48,8 +48,24 @@ message Event {
     google.protobuf.Timestamp timestamp = 2;
 
     // A free text description of a given event.
-    string description = 3;
+    Text description = 3;
 
     // A set of free tags associated this event to group and categories timeline entries.
     repeated string tags = 4;
+}
+
+// "Text" is a field type which is essentially a "free text" field, flavoured with a particular markup type.
+message Text {
+    // The "Syntax" is the tooling that should be used to convert the content to a consumable format.
+    enum Syntax {
+        PLAIN_TEXT = 0;
+        MARKDOWN = 1;
+        ASCIIDOC = 2;
+    }
+
+    // The syntax used in this text area
+    Syntax syntax = 1;
+
+    // The content of this text area
+    string content = 2;
 }
