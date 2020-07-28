@@ -1,13 +1,13 @@
 //https://cloud.google.com/apis/design/standard_methods#get
 syntax = "proto3";
 
-package v1alpha2;
+package v1alpha3;
 
-import "incident/v1alpha2/types.proto";
+import "incident/v1alpha3/types.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/field_mask.proto";
 
-option go_package = "github.com/ahshtio/apis/incident/v1alpha2";
+option go_package = "github.com/ahshtio/apis/incident/v1alpha3";
 
 // IncidentService is the primary way to interact with incidents managed by the platform.
 service IncidentService {
@@ -51,18 +51,18 @@ message GetIncidentRequest {
 
 message GetIncidentsRequest {
     // see types.Incident
-    v1alpha2.Incident incident = 1;
+    v1alpha3.Incident incident = 1;
 
     google.protobuf.FieldMask mask = 2;
 }
 
 message GetIncidentsResponse {
-    repeated v1alpha2.Incident incidents = 1;
+    repeated v1alpha3.Incident incidents = 1;
 }
 
 message PutIncidentRequest {
     // see types.Incident
-    v1alpha2.Incident incident = 1;
+    v1alpha3.Incident incident = 1;
 }
 
 message DeleteIncidentRequest {
@@ -72,7 +72,7 @@ message DeleteIncidentRequest {
 
 message UpdateIncidentRequest {
     // see types.Incident
-    v1alpha2.Incident incident = 1;
+    v1alpha3.Incident incident = 1;
 
     google.protobuf.FieldMask mask = 2;
 }
@@ -82,7 +82,7 @@ message WatchIncidentRequest {
 
 message WatchIncidentResponse {
     // see types.Incident
-    v1alpha2.Incident incident = 1;
+    v1alpha3.Incident incident = 1;
 }
 
 // AddEventRequest contains the content required to complete the "IncidentService.AddEvent" RPC
@@ -93,5 +93,5 @@ message AddEventRequest {
 	// Example: e1da1be2-eff2-11e8-a204-0f0dc88152cb
     string incident_id = 1;
 
-    v1alpha2.Event event = 2;
+    v1alpha3.Event event = 2;
 }
