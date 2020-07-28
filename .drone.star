@@ -43,21 +43,36 @@ def __go_client():
                     "ssh-keygen -F github.com || ssh-keyscan github.com >>~/.ssh/known_hosts",
 
                     # Set Git configuration
-                    "git remote set-url origin git@github.com:$DRONE_REPO",
                     "git config --global user.email apis@cloud.drone.io",
 
-                    # Switch to the appropriate refspec
-                    "git fetch --depth=1000",
-                    "git checkout go",
+                    # Clone the client repo
+                    "git clone git@github.com:ahshtio/apis-go.git",
 
                     # Arrange the content
-                    "find * -maxdepth 0 ! -name dist -print0 | xargs -0 rm -rfv",
-                    "mv dist/pkg/go/github.com/ahshtio/apis/* .",
+                    "find apis-go/* -maxdepth 0 -print0 | xargs -0 rm -rfv",
+                    "mv dist/pkg/go/github.com/ahshtio/apis/* apis-go",
+                    "cd apis-go",
                     "git add *",
 
                     # Push the changes"
-                    "git commit -m \"Generated@$DRONE_COMMIT\"",
-                    "git push --force-with-lease",
+                    """
+cat <<EOF | git commit --file -
+Generated@$DRONE_COMMIT
+
+This commit is automatically generated as a consequence of upstream 
+library updates in APIs repository:
+
+  https://github.com/ahshtio/apis
+
+See:
+
+  https://github.com/ahshtio/apis/commit/$DRONE_COMMIT
+
+For details.
+EOF
+                    """
+                    , 
+                    "git push"
                 ],
                 "environment": {
                     "ID_RSA": {
